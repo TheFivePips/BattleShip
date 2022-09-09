@@ -1,7 +1,7 @@
 
 // each ship needs a length, where the have been hit, and if they have been sunk
 
-class Ship {
+export class Ship {
     constructor(name, length){
         this.name = name
         this.length = length
@@ -26,7 +26,8 @@ class Ship {
     }
 } 
 
-const patrolBoat = new Ship("Patrol Boat", 2)
+
+
 
 
 
