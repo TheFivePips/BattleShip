@@ -14,7 +14,7 @@ export class Ship {
     
     getBody() {return this.body}
     
-   isSunk(){
+    isSunk(){
         this.body.every((item) => item === "X") ? console.log(`You sunk my ${this.name}`) : console.log("Not sunk yet");
         
     }
@@ -25,9 +25,5 @@ export class Ship {
         this.isSunk()
     }
 } 
-
-
-
-
 
 
