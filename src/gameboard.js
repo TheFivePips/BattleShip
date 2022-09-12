@@ -2,11 +2,26 @@ import { Ship } from './ship.js'
 
 class Gameboard {
     constructor(){
-        // this.size = size
-        // this.missedShots = []
+        this.isStartAllowed = false
+        this.hasStarted = false
         this.board = this.init()
        
     }
+
+    getIsStartAllowed(){
+        return this.isStartAllowed
+    }
+    setIsStartAllowed(val){
+        this.isStartAllowed = val
+    }
+
+    getHasStarted(){
+        return this.hasStarted
+    }
+    setHasStarted(val){
+        this.hasStarted = val
+    }
+
     // this should create a 10x10 grid of "false" arrays that can be accessed easily using grid[x][y]
     init(){
         let grid = []
@@ -20,7 +35,7 @@ class Gameboard {
     }
 
     // places ships  coordinates by calling the ship factory function
-    // x is for rows(up and down the grid), y for columns (left an right on the grid)
+    // x is for rows(up and down the grid), y for columns (left an right on the grid) direction will determin orientation
     placeShips(x, y, length, direction){
         // if the spot on the grid is occupied
         if(this.board[x][y]) return false
@@ -32,12 +47,11 @@ class Gameboard {
 
         // if the ship is horizontal
         if(direction === 'horizontal'){
-            // check if it will over flow the board
+            // check if it will overflow the board
             if(y + ship.length > 10) return false
             // actually place the ship by removing false from each grid item and replacing with the ship spaces
             for(let i = y; i < y + ship.length; i++){
                 this.board[x].splice(i,1, {ship, shipPosition})
-                
                 shipPosition++
             }
         }
@@ -46,7 +60,6 @@ class Gameboard {
             if(x + ship.length > 10) return false
             for(let i = x; i < x + ship.length; i++){
                 this.board[i].splice(y,1, {ship, shipPosition})
-               
                 shipPosition++
             }
         }
@@ -100,5 +113,5 @@ class Gameboard {
 }
 
 export { Gameboard }
-let gb = new Gameboard()
-console.log(gb.board[0])
+// let gb = new Gameboard()
+// console.log(gb.board[0])
