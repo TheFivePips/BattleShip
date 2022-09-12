@@ -20,7 +20,6 @@ class Gameboard {
     }
 
     // places ships  coordinates by calling the ship factory function
-    
     placeShips(x,y,length,direction){
         // if the spot on the grid is occupied
         if(this.grid[x][y]) return false
@@ -34,26 +33,19 @@ class Gameboard {
         if(direction === 'horizontal'){
             // check if it will over flow the board
             if(y + ship.length > 10) return false
-            // check if the spot is alredy reserved
-            // for(let i =0; i < length; i++){
-            //     if(this.grid[x][y+i] === 'reserved') return false
-            // }
             // actually place the ship by removing false from each grid item and replacing with the ship spaces
             for(let i = y; i < y + ship.length; i++){
                 this.grid[x].splice(i,1, {ship, shipPosition})
-                // reserveAround(x,y + shipPosition)
+                
                 shipPosition++
             }
         }
         // if vertical
         if(direction === 'vertical'){
             if(x+ ship.length > 10) return false
-            // for(let i = 0; i < length; i++){
-            //     if(this.grid[x+1][y] === "reserved")return false
-            // }
             for(let i = x; i < x+ ship.length; i++){
                 this.grid[i].splice(y,1, {ship, shipPosition})
-                // reserveAround(x + shipPosition, y)
+               
                 shipPosition++
             }
         }
