@@ -42,6 +42,7 @@ function renderBoards(p1, p2) {
         })
     }
 }
+
 //resets the boards
 function resetBoards() {
     // just set everything back to blank canvas
@@ -52,6 +53,81 @@ function resetBoards() {
       .forEach((board) => (board.innerHTML = ""));
     initGame();
 }
+
+//render buttons and add event listeners
+function renderButtons(player) {
+    const boardButtons = document.querySelector(".board-buttons");
+    const board1 = document.getElementById("board1");
+    const board2 = document.getElementById("board2");
+    // create the random and reset buttons
+    boardButtons.innerHTML = `
+      <button class="main-random">Random board</button>
+      <button class="main-reset">Reset board</button>
+   `;
+    // reset btn event listener
+   document.querySelector(".main-reset").addEventListener("click", () => {
+        //prevents bug when clicking reset during enemy's turn
+        if (!player.turn.get()) return;
+
+        //resets boards and gives the first board a class that will blur the board
+        resetBoards(player);
+        board1.classList.add("notStarted");
+    });
+    // random btn event listener that creates and renders a random fleet
+    document.querySelector(".main-random").addEventListener("click", () => {
+        // first clear the board
+        resetBoards();
+        // make a random fleet and render it
+        p1.randomFleet();
+        renderPlayerFleet(p1);
+        // now that we have a fleet we can begin the actual game
+        p1.board.isStartAllowed.set(true);
+        // once a random fleet is selected, there is no need to display the ships container anymore
+        document.querySelector(".ships").innerHTML = "";
+    });
+    // create the start button and its event listener
+    board1.innerHTML += `<button class="main-start">Start</button>`;
+    document.querySelector(".main-start").addEventListener("click", (e) => {
+        // prevent starting when not all ships are placed on the board
+        if (player.board.isStartAllowed.get() === false) return;
+    
+        //blur toggles before and after start
+        board1.classList.remove("notStarted");
+        player.board.hasStarted.set(true);
+    
+        //removes start button and the random button when game starts
+        board1.removeChild(e.target);
+        boardButtons.removeChild(document.querySelector(".main-random"));
+    });
+}
+// this will take the fleet generated in the player's randomFleet method,
+// the fleet that has already been placed onto the board at this point, and
+// give each cell that doesnt contain false(i.e the cells that are where the ships are located) the class of fleet, thus rendering them to the dom
+function renderPlayerFleet(player) {
+    // select all the cells on the board. i is the index
+    document.querySelectorAll(".cell-p2").forEach((e, i) => {
+        let pos1
+        let pos2;
+        // make this a string to be split once we get into double digit numbers
+        let pos = "" + i;
+        // for single digit numbers in the group
+        if (i < 10) {
+            pos1 = 0;
+            pos2 = i;
+        //for double digit numbers in the group 
+        // transform index string to array of pos1 and pos2
+        } else {
+          pos = pos.split("");
+          pos1 = pos[0];
+          pos2 = pos[1];
+        }
+    
+        if (!player.board.board[pos1][pos2]) return;
+        
+        else e.classList.add("fleet");
+    });
+}
+
 
 renderAttackP1(event, x, y, p1, p2)
 
