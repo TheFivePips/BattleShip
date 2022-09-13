@@ -18,3 +18,4 @@ function initGame() {
     // this should render the player boards
     renderBoards(p1,p2)
 }
+export { initGame, p1, p2 }
