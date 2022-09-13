@@ -1,4 +1,5 @@
 import { Player } from "./player";
+import { renderBoards } from './dom'
 
 let p1
 let p2

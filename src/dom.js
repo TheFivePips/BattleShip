@@ -42,5 +42,19 @@ function renderBoards(p1, p2) {
         })
     }
 }
+//resets the boards
+function resetBoards() {
+    // just set everything back to blank canvas
+    document.querySelector(".board-buttons").innerHTML = "";
+    document.querySelector(".ships").innerHTML = "";
+    document
+      .querySelectorAll(".board")
+      .forEach((board) => (board.innerHTML = ""));
+    initGame();
+}
 
 renderAttackP1(event, x, y, p1, p2)
+
+
+
+export { renderBoards }
