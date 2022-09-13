@@ -6,7 +6,7 @@ export class Ship {
         
         this.length = length
         this.body = [...Array(length).keys()];
-        
+        let domTargets = [];
 
     }
     

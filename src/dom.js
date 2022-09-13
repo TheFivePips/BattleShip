@@ -128,8 +128,34 @@ function renderPlayerFleet(player) {
     });
 }
 
+// renders the attack for p1. take event, xy coords, and both players
+renderAttackP1(e, x, y, p1, p2) {
+    document.getElementById('board1').classList.toggle('current-turn')
+    // call the attack method defined in the player class which in turn calls the reveiveAttack method defined in the gameboard class
+    let attack = p1.attack(p2, x, y)
+    // if the attack returns false(it isnt a valid target according to revieceAttack method)
+    if(!attack) return
+    if(attack === "miss") e.target.classList.add('miss')
+    if(attack === 'hit') {
+        e.target.classList.add('hit')
+        // record the hit on the domTagets array found in the ship class
+        p2.board.board[x][y].ship.domTargets.push(e.target)
+        // if the boat is sunk, add the sunk class to each item in the domTargets array
+        if(p2.board.borad[x][y].ship.isSunk()) {
+            p2.board.board[x][y].ship.domTargets.forEach((e) => {
+                e.classList.add('sunk')
+            })
+        }
+        return
+    }
+    // change turn
+    p2.isTurn(p1)
+    // check for win. if yes, render win screen. if no, computers turn
+    return p2.board.areAllSunk(p2.board.board) === true ? 
+        renderWin(p1) : aiPlay(flase, p1, p2)
+}
 
-renderAttackP1(event, x, y, p1, p2)
+
 
 
 
