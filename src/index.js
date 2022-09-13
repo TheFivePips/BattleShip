@@ -1,0 +1,1 @@
+import { initGame } from "./game";
